@@ -39,3 +39,28 @@ if (this.id === "sqrt") {
   }
   return;
 }
+if (this.id === "percent") {
+  try {
+    display.value = display.value / 100;
+  } catch {
+    display.value = "Error";
+  }
+  return;
+}
+if (this.id === "ce") {
+  let parts = display.value.split(/[\+\-\*\/]/);
+  parts.pop(); // حذف آخر رقم
+
+  let operators = display.value.match(/[\+\-\*\/]/g) || [];
+
+  let newValue = "";
+  for (let i = 0; i < parts.length; i++) {
+    newValue += parts[i];
+    if (operators[i]) {
+      newValue += operators[i];
+    }
+  }
+
+  display.value = newValue;
+  return;
+}
