@@ -64,3 +64,11 @@ if (this.id === "ce") {
   display.value = newValue;
   return;
 }
+if (this.id === "square") {
+  try {
+    display.value = Math.pow(display.value, 2);
+  } catch {
+    display.value = "Error";
+  }
+  return;
+}
