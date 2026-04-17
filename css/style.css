@@ -11,7 +11,7 @@ body {
   background: #222;
   padding: 20px;
   border-radius: 15px;
-  width: 250px;
+  width: 350px;
 }
 
 #display {
@@ -27,7 +27,7 @@ body {
 
 .buttons {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(5, 1fr);
   gap: 10px;
 }
 
@@ -51,4 +51,20 @@ button:hover {
 
 #clear {
   background: red;
+}
+
+.dropdown {
+  position: relative;
+  margin-bottom: 10px;
+}
+
+#trigMenu {
+  position: absolute;
+  background: #222;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.hidden {
+  display: none;
 }

@@ -10,6 +10,18 @@
   <body>
     <div class="calculator">
       <input type="text" id="display" disabled />
+      <div class="dropdown">
+        <button id="trigBtn">Trigonometry ▼</button>
+
+        <div id="trigMenu" class="hidden">
+          <button id="sin">sin</button>
+          <button id="cos">cos</button>
+          <button id="tan">tan</button>
+          <button id="sec">sec</button>
+          <button id="csc">csc</button>
+          <button id="cot">cot</button>
+        </div>
+      </div>
 
       <div class="buttons">
         <button id="square">x²</button>
@@ -23,6 +35,8 @@
         <button id="close">)</button>
         <button id="exp">exp</button>
         <button id="mod">mod</button>
+
+        <button id="toggleSign">±</button>
 
         <button id="percent">%</button>
         <button id="ce">CE</button>

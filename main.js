@@ -1,5 +1,8 @@
 let display = document.getElementById("display");
 let buttons = document.querySelectorAll("button");
+document.getElementById("trigBtn").addEventListener("click", function () {
+  document.getElementById("trigMenu").classList.toggle("hidden");
+});
 
 buttons.forEach((button) => {
   button.addEventListener("click", function () {
@@ -112,6 +115,42 @@ buttons.forEach((button) => {
       } catch {
         display.value = "Error";
       }
+      return;
+    }
+
+    // sin
+    if (this.id === "sin") {
+      display.value = Math.sin(eval(display.value));
+      return;
+    }
+
+    // cos
+    if (this.id === "cos") {
+      display.value = Math.cos(eval(display.value));
+      return;
+    }
+
+    // tan
+    if (this.id === "tan") {
+      display.value = Math.tan(eval(display.value));
+      return;
+    }
+
+    // sec
+    if (this.id === "sec") {
+      display.value = 1 / Math.cos(eval(display.value));
+      return;
+    }
+
+    // csc
+    if (this.id === "csc") {
+      display.value = 1 / Math.sin(eval(display.value));
+      return;
+    }
+
+    // cot
+    if (this.id === "cot") {
+      display.value = 1 / Math.tan(eval(display.value));
       return;
     }
   });
