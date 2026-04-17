@@ -93,6 +93,7 @@ buttons.forEach((button) => {
       display.value += ")";
       return;
     }
+
     // زر exp
     if (this.id === "exp") {
       display.value = Math.exp(display.value);
@@ -101,6 +102,16 @@ buttons.forEach((button) => {
     // زر mod
     if (this.id === "mod") {
       display.value += "%";
+      return;
+    }
+
+    if (this.id === "toggleSign") {
+      try {
+        let value = eval(display.value);
+        display.value = -value;
+      } catch {
+        display.value = "Error";
+      }
       return;
     }
   });
