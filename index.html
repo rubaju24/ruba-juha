@@ -1,69 +1,71 @@
 <!doctype html>
-<html lang="en">
+<html>
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>calculat</title>
-
+    <title>Scientific Calculator</title>
     <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
     <div class="calculator">
-      <input type="text" id="display" disabled />
-      <div class="dropdown">
-        <button id="trigBtn">Trigonometry ▼</button>
+      <div class="top">
+        <span>DEG</span>
+        <span>F-E</span>
+      </div>
 
-        <div id="trigMenu" class="hidden">
-          <button id="sin">sin</button>
-          <button id="cos">cos</button>
-          <button id="tan">tan</button>
-          <button id="sec">sec</button>
-          <button id="csc">csc</button>
-          <button id="cot">cot</button>
-        </div>
+      <input type="text" id="display" disabled />
+
+      <div class="memory">
+        <span>MC</span>
+        <span>MR</span>
+        <span>M+</span>
+        <span>M-</span>
+        <span>MS</span>
       </div>
 
       <div class="buttons">
-        <button id="square">x²</button>
-        <button id="inverse">1/x</button>
-        <button id="sqrt">√</button>
-        <button id="factorial">n!</button>
-        <button id="pi">π</button>
+        <button data-func="square">x²</button>
+        <button data-func="inverse">1/x</button>
+        <button data-func="abs">|x|</button>
+        <button data-func="exp">exp</button>
+        <button data-value="%">mod</button>
 
-        <button id="e">e</button>
-        <button id="open">(</button>
-        <button id="close">)</button>
-        <button id="exp">exp</button>
-        <button id="mod">mod</button>
+        <button data-func="sqrt">√</button>
+        <button data-value="(">(</button>
+        <button data-value=")">)</button>
+        <button data-func="fact">n!</button>
+        <button data-value="/">÷</button>
 
-        <button id="toggleSign">±</button>
+        <button data-func="pow">xʸ</button>
+        <button data-func="sin">sin</button>
+        <button data-func="cos">cos</button>
+        <button data-func="tan">tan</button>
+        <button data-value="*">×</button>
 
-        <button id="percent">%</button>
-        <button id="ce">CE</button>
-        <button id="delete">⌫</button>
+        <button data-func="tenpow">10ˣ</button>
         <button data-value="7">7</button>
         <button data-value="8">8</button>
         <button data-value="9">9</button>
-        <button data-value="/">÷</button>
+        <button data-value="-">-</button>
 
+        <button data-func="log">log</button>
         <button data-value="4">4</button>
         <button data-value="5">5</button>
         <button data-value="6">6</button>
-        <button data-value="*">×</button>
+        <button data-value="+">+</button>
 
+        <button data-func="ln">ln</button>
         <button data-value="1">1</button>
         <button data-value="2">2</button>
         <button data-value="3">3</button>
-        <button data-value="-">-</button>
-
-        <button data-value="0">0</button>
-        <button data-value=".">.</button>
         <button id="equal">=</button>
-        <button data-value="+">+</button>
 
         <button id="clear">C</button>
+        <button data-value="0">0</button>
+        <button data-value=".">.</button>
+        <button id="delete">⌫</button>
       </div>
     </div>
-    <script src="/main.js"></script>
+
+    <script src="main.js"></script>
   </body>
 </html>
