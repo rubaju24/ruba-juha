@@ -93,5 +93,15 @@ buttons.forEach((button) => {
       display.value += ")";
       return;
     }
+    // زر exp
+    if (this.id === "exp") {
+      display.value = Math.exp(display.value);
+      return;
+    }
+    // زر mod
+    if (this.id === "mod") {
+      display.value += "%";
+      return;
+    }
   });
 });
