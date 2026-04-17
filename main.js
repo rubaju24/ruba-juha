@@ -1,45 +1,33 @@
-function appendValue(value) {
-  document.getElementById("display").value += value;
-}
+let display = document.getElementById("display");
+let buttons = document.querySelectorAll("button");
 
-function clearDisplay() {
-  document.getElementById("display").value = "";
-}
+buttons.forEach((button) => {
+  button.addEventListener("click", function () {
+    // مسح
+    if (this.id === "clear") {
+      display.value = "";
+      return;
+    }
 
-function calculate() {
-  try {
-    let result = eval(document.getElementById("display").value);
-    document.getElementById("display").value = result;
-  } catch {
-    alert("Error");
-  }
-}
-function calculate() {
-  try {
-    let result = eval(display.value);
-    display.value = result;
-  } catch {
-    display.value = "Error";
-  }
-}
-document.addEventListener("keydown", function (event) {
-  let key = event.key;
+    // يساوي
+    if (this.id === "equal") {
+      try {
+        display.value = eval(display.value);
+      } catch {
+        display.value = "Error";
+      }
+      return;
+    }
 
-  if (!isNaN(key) || "+-*/().".includes(key)) {
-    display.value += key;
-  } else if (key === "Enter") {
-    calculate();
-  } else if (key === "Backspace") {
-    display.value = display.value.slice(0, -1);
-  }
+    // باقي الأزرار
+    let value = this.getAttribute("data-value");
+    if (value) {
+      display.value += value;
+    }
+  });
 });
-function factorial(n) {
-  if (n < 0) return "Error";
-  if (n === 0) return 1;
-
-  let result = 1;
-  for (let i = 1; i <= n; i++) {
-    result *= i;
-  }
-  return result;
+// زر حذف رقم
+if (this.id === "delete") {
+  display.value = display.value.slice(0, -1);
+  return;
 }

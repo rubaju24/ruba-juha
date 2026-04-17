@@ -3,65 +3,39 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>calculate</title>
+    <title>calculat</title>
+
     <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
     <div class="calculator">
-      <input type="text" id="display" class="display" disabled />
+      <input type="text" id="display" disabled />
 
       <div class="buttons">
-        <button onclick="appendValue('Math.PI')">π</button>
-        <button onclick="appendValue('**2')">x²</button>
-        <button onclick="appendValue('Math.sqrt(')">√</button>
-        <button onclick="appendValue('1/')">1/x</button>
-        <button onclick="appendValue('**')">x^y</button>
-        <button onclick="appendValue('Math.log10(')">log</button>
-        <button onclick="appendValue('Math.log(')">ln</button>
-        <button onclick="appendValue('(')">(</button>
-        <button onclick="appendValue(')')">)</button>
+        <button id="delete">⌫</button>
+        <button data-value="7">7</button>
+        <button data-value="8">8</button>
+        <button data-value="9">9</button>
+        <button data-value="/">÷</button>
 
-        <button onclick="appendValue('Math.E')">e</button>
-        <button onclick="appendValue('Math.abs(')">|x|</button>
-        <button onclick="appendValue('Math.exp(')">exp</button>
-        <button onclick="appendValue('%')">mod</button>
+        <button data-value="4">4</button>
+        <button data-value="5">5</button>
+        <button data-value="6">6</button>
+        <button data-value="*">×</button>
 
-        <button onclick="appendValue('Math.pow(')">xʸ</button>
-        <button onclick="appendValue('Math.pow(10,')">10ˣ</button>
-        <button onclick="appendValue('factorial(')">n!</button>
+        <button data-value="1">1</button>
+        <button data-value="2">2</button>
+        <button data-value="3">3</button>
+        <button data-value="-">-</button>
 
-        <button onclick="appendValue('Math.sin(')">sin</button>
-        <button onclick="appendValue('Math.cos(')">cos</button>
-        <button onclick="appendValue('Math.tan(')">tan</button>
+        <button data-value="0">0</button>
+        <button data-value=".">.</button>
+        <button id="equal">=</button>
+        <button data-value="+">+</button>
 
-        <button onclick="appendValue('Math.asin(')">sin⁻¹</button>
-        <button onclick="appendValue('Math.acos(')">cos⁻¹</button>
-        <button onclick="appendValue('Math.atan(')">tan⁻¹</button>
-
-        <button onclick="clearDisplay()" class="clear">C</button>
-        <button onclick="appendValue('/')" class="operator">÷</button>
-        <button onclick="appendValue('*')" class="operator">x</button>
-
-        <button onclick="appendValue('7')">7</button>
-        <button onclick="appendValue('8')">8</button>
-        <button onclick="appendValue('9')">9</button>
-        <button onclick="appendValue('-')" class="operator">-</button>
-
-        <button onclick="appendValue('4')">4</button>
-        <button onclick="appendValue('5')">5</button>
-        <button onclick="appendValue('6')">6</button>
-        <button onclick="appendValue('+')" class="operator">+</button>
-
-        <button onclick="appendValue('1')">1</button>
-        <button onclick="appendValue('2')">2</button>
-        <button onclick="appendValue('3')">3</button>
-
-        <button onclick="appendValue('0')">0</button>
-        <button onclick="appendValue('.')">.</button>
-        <button onclick="calculate()" class="equal">=</button>
+        <button id="clear">C</button>
       </div>
     </div>
-
-    <script src="main.js"></script>
+    <script src="/main.js"></script>
   </body>
 </html>
