@@ -73,5 +73,25 @@ buttons.forEach((button) => {
       display.value = result;
       return;
     }
+    // زر الباي
+    if (this.id === "pi") {
+      display.value += Math.PI;
+      return;
+    }
+    // زر e
+    if (this.id === "e") {
+      display.value += Math.E;
+      return;
+    }
+    // زر (
+    if (this.id === "open") {
+      display.value += "(";
+      return;
+    }
+
+    if (this.id === "close") {
+      display.value += ")";
+      return;
+    }
   });
 });
