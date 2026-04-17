@@ -12,16 +12,14 @@ buttons.forEach((btn) => {
     let val = this.dataset.value;
     let func = this.dataset.func;
 
-    if (this.id === "ce") {
-      display.value = "";
-    }
-
     if (this.id === "pi") {
       display.value += Math.PI;
       return;
     }
 
     if (val) display.value += val;
+
+    if (this.id === "clear") display.value = "";
 
     if (this.id === "delete") display.value = display.value.slice(0, -1);
 
