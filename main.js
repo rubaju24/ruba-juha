@@ -16,9 +16,12 @@ buttons.forEach((btn) => {
       display.value = "";
     }
 
-    if (val) display.value += val;
+    if (this.id === "pi") {
+      display.value += Math.PI;
+      return;
+    }
 
-    if (this.id === "clear") display.value = "";
+    if (val) display.value += val;
 
     if (this.id === "delete") display.value = display.value.slice(0, -1);
 
