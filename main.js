@@ -31,3 +31,11 @@ if (this.id === "delete") {
   display.value = display.value.slice(0, -1);
   return;
 }
+if (this.id === "sqrt") {
+  try {
+    display.value = Math.sqrt(display.value);
+  } catch {
+    display.value = "Error";
+  }
+  return;
+}
