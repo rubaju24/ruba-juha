@@ -55,5 +55,23 @@ buttons.forEach((button) => {
     if (value) {
       display.value += value;
     }
+
+    // زر العاملي
+    if (this.id === "factorial") {
+      let num = parseInt(display.value);
+
+      if (isNaN(num) || num < 0) {
+        display.value = "Error";
+        return;
+      }
+
+      let result = 1;
+      for (let i = 1; i <= num; i++) {
+        result *= i;
+      }
+
+      display.value = result;
+      return;
+    }
   });
 });
