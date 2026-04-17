@@ -33,3 +33,13 @@ document.addEventListener("keydown", function (event) {
     display.value = display.value.slice(0, -1);
   }
 });
+function factorial(n) {
+  if (n < 0) return "Error";
+  if (n === 0) return 1;
+
+  let result = 1;
+  for (let i = 1; i <= n; i++) {
+    result *= i;
+  }
+  return result;
+}
