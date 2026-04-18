@@ -6,7 +6,29 @@ const dropdownOptions = document.getElementById("dropdownOptions");
 const optionsList = document.querySelectorAll(".dropdown-options li");
 const degModeBtn = document.getElementById("degMode");
 const radModeBtn = document.getElementById("radMode");
-
+// دالة مخصصة لتقييم التعبيرات الرياضية بأمان
+function evaluateExpression(expression) {
+  // استبدال الرموز الرياضية بما يفهمه JavaScript
+  expression = expression
+    .replace(/×/g, '*')
+    .replace(/÷/g, '/')
+    .replace(/\^/g, '**')
+    .replace(/√\(/g, 'Math.sqrt(')
+    .replace(/ln\(/g, 'Math.log(')
+    .replace(/log\(/g, 'Math.log10(')
+    .replace(/sin\(/g, 'Math.sin(')
+    .replace(/cos\(/g, 'Math.cos(')
+    .replace(/tan\(/g, 'Math.tan(')
+    .replace(/π/g, 'Math.PI')
+    .replace(/e(?![a-zA-Z])/g, 'Math.E');
+  
+  // استخدام eval مع معالجة الأخطاء
+  try {
+    return eval(expression);
+  } catch (error) {
+    throw new Error("تعبير غير صالح");
+  }
+}
 // متغيرات الحالة
 let isDegreeMode = true;
 let currentFunction = "sin";
@@ -51,7 +73,9 @@ function calculateTrigFunction(func, value) {
     case "sin":
       return Math.sin(angle);
     case "cos":
-      return Math.cos(angle);
+      res = Math.cos(angle);
+      res = Math.abs(res) < 1e-15 ? 0 : res; // التعامل مع القيم الصغيرة جداً
+      return res;
     case "tan":
       return Math.tan(angle);
     case "asin":
@@ -84,6 +108,16 @@ buttons.forEach((button) => {
         display.value = "Error";
       }
       return;
+    }
+    if (this.id == "percent") {
+      try {
+        let value = evaluateExpression(display.value);
+        display.value = value / 100;
+      }
+      catch {
+        display.value = "Error";
+        return;
+      }
     }
     // C
     if (this.id === "clear") {
