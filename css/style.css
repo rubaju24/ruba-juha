@@ -190,3 +190,20 @@ button:hover {
 .dropdown-options::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
+.memory {
+  display: flex;
+  justify-content: space-between;
+  margin: 5px 0;
+}
+
+.memory button {
+  background: none;
+  border: none;
+  color: gray;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.memory button:hover {
+  color: black;
+}

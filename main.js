@@ -10,7 +10,7 @@ const radModeBtn = document.getElementById("radMode");
 // متغيرات الحالة
 let isDegreeMode = true;
 let currentFunction = "sin";
-
+let memory = 0;
 // إعدادات القائمة المنسدلة
 dropdownBtn.addEventListener("click", (event) => {
   event.stopPropagation();
@@ -262,6 +262,31 @@ buttons.forEach((button) => {
         display.value = "Error";
       }
       return; // مهم: نوقف تنفيذ باقي الكود
+    }
+
+    // MS = تخزين
+    if (this.id === "ms") {
+      memory = parseFloat(display.value) || 0;
+    }
+
+    // MR = استرجاع
+    if (this.id === "mr") {
+      display.value += memory;
+    }
+
+    // MC = مسح
+    if (this.id === "mc") {
+      memory = 0;
+    }
+
+    // M+ = جمع
+    if (this.id === "mplus") {
+      memory += parseFloat(display.value) || 0;
+    }
+
+    // M- = طرح
+    if (this.id === "mminus") {
+      memory -= parseFloat(display.value) || 0;
     }
   });
 });
