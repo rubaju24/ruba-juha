@@ -8,8 +8,31 @@ const optionsList = document.querySelectorAll(".dropdown-options li");
 
 const degModeBtn = document.getElementById("degMode");
 const radModeBtn = document.getElementById("radMode");
+const applyBtn = document.getElementById("applyFunc");
+// دالة مخصصة لتقييم التعبيرات الرياضية بأمان
+function evaluateExpression(expression) {
+  // استبدال الرموز الرياضية بما يفهمه JavaScript
+  expression = expression
+    .replace(/×/g, "*")
+    .replace(/÷/g, "/")
+    .replace(/\^/g, "**")
+    .replace(/√\(/g, "Math.sqrt(")
+    .replace(/ln\(/g, "Math.log(")
+    .replace(/log\(/g, "Math.log10(")
+    .replace(/sin\(/g, "Math.sin(")
+    .replace(/cos\(/g, "Math.cos(")
+    .replace(/tan\(/g, "Math.tan(")
+    .replace(/π/g, "Math.PI")
+    .replace(/e(?![a-zA-Z])/g, "Math.E");
 
-// الحالة
+  // استخدام eval مع معالجة الأخطاء
+  try {
+    return eval(expression);
+  } catch (error) {
+    throw new Error("تعبير غير صالح");
+  }
+}
+// متغيرات الحالة
 let isDegreeMode = true;
 let currentFunction = "sin";
 let memory = 0;
@@ -53,7 +76,9 @@ function calculateTrigFunction(func, value) {
     case "sin":
       return Math.sin(angle);
     case "cos":
-      return Math.cos(angle);
+      res = Math.cos(angle);
+      res = Math.abs(res) < 1e-15 ? 0 : res; // التعامل مع القيم الصغيرة جداً
+      return res;
     case "tan":
       return Math.tan(angle);
 
@@ -108,6 +133,15 @@ buttons.forEach((button) => {
       return;
     }
 
+    if (this.id == "percent") {
+      try {
+        let value = evaluateExpression(display.value);
+        display.value = value / 100;
+      } catch {
+        display.value = "Error";
+        return;
+      }
+    }
     // C
     if (this.id === "clear") {
       display.value = "";
@@ -254,4 +288,56 @@ buttons.forEach((button) => {
     if (this.id === "mplus") memory += parseFloat(display.value) || 0;
     if (this.id === "mminus") memory -= parseFloat(display.value) || 0;
   });
+});
+document.addEventListener("keydown", function (e) {
+  const key = e.key;
+
+  // أرقام وعمليات
+  if (!isNaN(key) || "+-*/.%".includes(key)) {
+    display.value += key;
+  }
+
+  // Enter = يساوي
+  else if (key === "Enter") {
+    e.preventDefault();
+    try {
+      let val = parseFloat(display.value);
+
+      if (!isNaN(val)) {
+        display.value = calculateTrigFunction(currentFunction, val);
+      } else {
+        display.value = eval(display.value);
+      }
+    } catch {
+      display.value = "Error";
+    }
+  }
+
+  // Backspace = حذف
+  else if (key === "Backspace") {
+    display.value = display.value.slice(0, -1);
+  }
+
+  // Escape = مسح
+  else if (key === "Escape") {
+    display.value = "";
+  }
+
+  // الأقواس
+  else if (key === "(" || key === ")") {
+    display.value += key;
+  }
+});
+const applyBtn = document.getElementById("applyFunc");
+
+applyBtn.addEventListener("click", () => {
+  try {
+    let val = parseFloat(display.value);
+
+    if (!isNaN(val)) {
+      display.value = calculateTrigFunction(currentFunction, val);
+    }
+  } catch {
+    display.value = "Error";
+  }
 });
