@@ -131,7 +131,7 @@ buttons.forEach((button) => {
       }
       return;
     }
-    // ضع هذا الكود مع مجموعة أزرار الدوال (مثل sqrt و inverse)
+    //  مجموعة أزرار الدوال
     if (this.id === "ln") {
       try {
         let value = eval(display.value);
@@ -261,7 +261,7 @@ buttons.forEach((button) => {
       } catch {
         display.value = "Error";
       }
-      return; // مهم: نوقف تنفيذ باقي الكود
+      return;
     }
 
     // MS = تخزين
