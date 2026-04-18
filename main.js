@@ -9,6 +9,7 @@ const optionsList = document.querySelectorAll(".dropdown-options li");
 const degModeBtn = document.getElementById("degMode");
 const radModeBtn = document.getElementById("radMode");
 const applyBtn = document.getElementById("applyFunc");
+
 // دالة مخصصة لتقييم التعبيرات الرياضية بأمان
 function evaluateExpression(expression) {
   // استبدال الرموز الرياضية بما يفهمه JavaScript
