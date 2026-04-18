@@ -207,3 +207,14 @@ button:hover {
 .memory button:hover {
   color: #918787;
 }
+/* 🆕 تنسيق زر 2ⁿᵈ عند التفعيل */
+#2\^nd.active {
+  background-color: #2196f3;
+  color: white;
+  box-shadow: 0 0 8px #2196f3;
+}
+
+/* 🆕 تنسيق الأزرار في وضع 2ⁿᵈ */
+button.alt-mode {
+  background-color: #2a6d9c;
+}

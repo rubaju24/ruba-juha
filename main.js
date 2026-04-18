@@ -5,7 +5,7 @@ let buttons = document.querySelectorAll("button");
 const dropdownBtn = document.getElementById("dropdownBtn");
 const dropdownOptions = document.getElementById("dropdownOptions");
 const optionsList = document.querySelectorAll(".dropdown-options li");
-
+//القائمة المنسدالة الإضافية
 const extraDropdownBtn = document.getElementById("extraDropdownBtn");
 const extraDropdownOptions = document.getElementById("extraDropdownOptions");
 const extraOptionsList = document.querySelectorAll("#extraDropdownOptions li");
@@ -13,14 +13,66 @@ let currentExtraFunction = "rand";
 const degModeBtn = document.getElementById("degMode");
 const radModeBtn = document.getElementById("radMode");
 const applyBtn = document.getElementById("applyFunc");
-let activeDropdown = "trig";
-// دالة مخصصة لتقييم التعبيرات الرياضية بأمان
+const secondBtn = document.getElementById("2^nd");
+
+const toggleButtonsMap = {
+  ln: { primary: "ln", alt: "eˣ" },
+  log: { primary: "log", alt: "logᵧx" },
+  tenPower: { primary: "10ˣ", alt: "2ˣ" },
+  power: { primary: "xʸ", alt: "ʸ√x" },
+  sqrt: { primary: "√", alt: "∛" },
+  square: { primary: "x²", alt: "x³" },
+};
+if (secondBtn) {
+  secondBtn.addEventListener("click", function () {
+    isSecondMode = !isSecondMode;
+
+    if (isSecondMode) {
+      secondBtn.classList.add("active");
+    } else {
+      secondBtn.classList.remove("active");
+    }
+
+    // تحديث نصوص الأزرار
+    for (let id in toggleButtonsMap) {
+      const btn = document.getElementById(id);
+      if (btn) {
+        if (isSecondMode) {
+          btn.textContent = toggleButtonsMap[id].alt;
+          btn.classList.add("alt-mode");
+        } else {
+          btn.textContent = toggleButtonsMap[id].primary;
+          btn.classList.remove("alt-mode");
+        }
+      }
+    }
+  });
+}
+
+// دالة تقييم التعبيرات الرياضية 
 function evaluateExpression(expression) {
-  // استبدال الرموز الرياضية بما يفهمه JavaScript
+  if (expression.trim() === "") return 0;
+
+  //  معالجة logᵧ 
+  expression = expression.replace(
+    /(\d+\.?\d*)logᵧ(\d+\.?\d*)/g,
+    (match, base, val) => {
+      return Math.log(parseFloat(val)) / Math.log(parseFloat(base));
+    },
+  );
+
+  //  معالجة ʸ√ 
+  expression = expression.replace(
+    /(\d+\.?\d*)ʸ√(\d+\.?\d*)/g,
+    (match, root, val) => {
+      return Math.pow(parseFloat(val), 1 / parseFloat(root));
+    },
+  );
+  //استبدال الرموز الرياضيه 
   expression = expression
     .replace(/×/g, "*")
     .replace(/÷/g, "/")
-    .replace(/\^/g, "**")
+    // .replace(/\^/g, "**")
     .replace(/√\(/g, "Math.sqrt(")
     .replace(/ln\(/g, "Math.log(")
     .replace(/log\(/g, "Math.log10(")
@@ -38,11 +90,12 @@ function evaluateExpression(expression) {
   }
 }
 
-// متغيرات الحالة
+// متغيرات
 let isDegreeMode = true;
 let currentFunction = "sin";
 let memory = 0;
-
+let activeDropdown = "trig";
+let isSecondMode = false;
 // القائمة المنسدلة
 dropdownBtn.addEventListener("click", (event) => {
   event.stopPropagation();
@@ -72,7 +125,6 @@ extraOptionsList.forEach((option) => {
     extraDropdownBtn.textContent = option.textContent;
     extraDropdownOptions.classList.add("hidden");
     activeDropdown = "extra";
-    // تطبيق rand فوراً بدون الحاجة لضغط Apply
     if (currentExtraFunction === "rand") {
       display.value = Math.random();
     }
@@ -98,7 +150,7 @@ radModeBtn.addEventListener("click", () => {
   degModeBtn.classList.remove("active");
 });
 
-// دوال مثلثية
+// الدوال مثلثية
 function calculateTrigFunction(func, value) {
   let angle = isDegreeMode ? value * (Math.PI / 180) : value;
 
@@ -154,24 +206,19 @@ buttons.forEach((button) => {
       display.value += value;
       return;
     }
+    if (this.id === "2^nd") {
+      return;
+    }
 
-    // =
     if (this.id === "equal") {
       try {
-        let val = parseFloat(display.value);
-
-        // إذا في دالة مختارة
-        if (!isNaN(val)) {
-          display.value = calculateTrigFunction(currentFunction, val);
-        } else {
-          display.value = eval(display.value);
-        }
+        
+        display.value = evaluateExpression(display.value);
       } catch {
         display.value = "Error";
       }
       return;
     }
-
     if (this.id == "percent") {
       try {
         let value = evaluateExpression(display.value);
@@ -196,13 +243,24 @@ buttons.forEach((button) => {
     // √
     if (this.id === "sqrt") {
       try {
-        display.value = Math.sqrt(eval(display.value));
+        let value = evaluateExpression(display.value);
+
+        if (isSecondMode) {
+          // وضع 2ⁿᵈ: ∛ (جذر تكعيبي)
+          display.value = Math.cbrt(value);
+        } else {
+          // وضع عادي: √ (جذر تربيعي)
+          if (value < 0) {
+            display.value = "Error";
+          } else {
+            display.value = Math.sqrt(value);
+          }
+        }
       } catch {
         display.value = "Error";
       }
       return;
     }
-
     // 1/x
     if (this.id === "inverse") {
       try {
@@ -217,19 +275,39 @@ buttons.forEach((button) => {
     // ln
     if (this.id === "ln") {
       try {
-        let val = eval(display.value);
-        display.value = val <= 0 ? "Error" : Math.log(val);
+        let value = evaluateExpression(display.value);
+
+        if (isSecondMode) {
+          // وضع 2ⁿᵈ: eˣ
+          display.value = Math.exp(value);
+        } else {
+          // وضع عادي: ln
+          if (value <= 0) {
+            display.value = "Error";
+          } else {
+            display.value = Math.log(value);
+          }
+        }
       } catch {
         display.value = "Error";
       }
       return;
     }
-
     // log
     if (this.id === "log") {
       try {
-        let val = eval(display.value);
-        display.value = val <= 0 ? "Error" : Math.log10(val);
+        if (isSecondMode) {
+      
+          display.value += "logᵧ";
+        } else {
+          
+          let value = evaluateExpression(display.value);
+          if (value <= 0) {
+            display.value = "Error";
+          } else {
+            display.value = Math.log10(value);
+          }
+        }
       } catch {
         display.value = "Error";
       }
@@ -238,14 +316,28 @@ buttons.forEach((button) => {
 
     // x^y
     if (this.id === "power") {
-      display.value += "**";
+      if (isSecondMode) {
+        
+        display.value += "ʸ√";
+      } else {
+        
+        display.value += "**";
+      }
       return;
     }
 
     // 10^x
     if (this.id === "tenPower") {
       try {
-        display.value = Math.pow(10, eval(display.value));
+        let value = evaluateExpression(display.value);
+
+        if (isSecondMode) {
+          
+          display.value = Math.pow(2, value);
+        } else {
+          
+          display.value = Math.pow(10, value);
+        }
       } catch {
         display.value = "Error";
       }
@@ -304,6 +396,22 @@ buttons.forEach((button) => {
     if (this.id === "toggleSign") {
       try {
         display.value = -eval(display.value);
+      } catch {
+        display.value = "Error";
+      }
+      return;
+    }
+    if (this.id === "square") {
+      try {
+        let value = evaluateExpression(display.value);
+
+        if (isSecondMode) {
+           
+          display.value = Math.pow(value, 3);
+        } else {
+          
+          display.value = Math.pow(value, 2);
+        }
       } catch {
         display.value = "Error";
       }
@@ -368,17 +476,6 @@ document.addEventListener("keydown", function (e) {
   }
 });
 
-// applyBtn.addEventListener("click", () => {
-//   try {
-//     let val = parseFloat(display.value);
-
-//     if (!isNaN(val)) {
-//       display.value = calculateTrigFunction(currentFunction, val);
-//     }
-//   } catch {
-//     display.value = "Error";
-//   }
-// });
 applyBtn.addEventListener("click", () => {
   try {
     if (activeDropdown === "trig") {

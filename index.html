@@ -35,21 +35,21 @@
             <li data-value="tanh">tanh</li>
           </ul>
         </div>
-       <!-- 🆕 القائمة المنسدلة للدوال الإضافية -->
-<div class="custom-dropdown" id="extraDropdown">
-    <button class="dropdown-btn" id="extraDropdownBtn">rand</button>
-    <ul class="dropdown-options hidden" id="extraDropdownOptions">
-        <li data-value="rand">rand</li>
-        <li data-value="deg">deg</li>
-        <li data-value="dms">dms</li>
-        <li data-value="floor">⌊x⌋</li>
-        <li data-value="ceil">⌈x⌉</li>
-        <li data-value="abs">|x|</li>
-    </ul>
-</div>
+        <!-- 🆕 القائمة المنسدلة للدوال الإضافية -->
+        <div class="custom-dropdown" id="extraDropdown">
+          <button class="dropdown-btn" id="extraDropdownBtn">rand</button>
+          <ul class="dropdown-options hidden" id="extraDropdownOptions">
+            <li data-value="rand">rand</li>
+            <li data-value="deg">deg</li>
+            <li data-value="dms">dms</li>
+            <li data-value="floor">⌊x⌋</li>
+            <li data-value="ceil">⌈x⌉</li>
+            <li data-value="abs">|x|</li>
+          </ul>
+        </div>
 
-<!-- 🆕 زر تطبيق الدوال الإضافية -->
-<button id="applyFunc" class="func-btn">Apply</button>
+        <!-- 🆕 زر تطبيق الدوال الإضافية -->
+        <button id="applyFunc" class="func-btn">Apply</button>
         <!-- أزرار التحكم بوحدة الزاوية -->
         <div class="angle-mode">
           <button id="degMode" class="mode-btn active">DEG</button>
@@ -63,35 +63,38 @@
         <button id="e">e</button>
         <button id="clear">C</button>
         <button id="delete">⌫</button>
-        <button id="square">x²</button>
+        <button id="square" data-primary="x²" data-alt="x³">x²</button>
+        <button id="cubeRoot" style="display: none">∛</button>
+        <!-- زر مخفي للجذر التكعيبي -->
+
         <button id="inverse">1/x</button>
         <button id="absolute">|x|</button>
         <button id="exp">exp</button>
         <button id="mod">mod</button>
-        <button id="sqrt">√</button>
+        <button id="sqrt" data-primary="√" data-alt="∛">√</button>
         <button id="open">(</button>
         <button id="close">)</button>
         <button id="factorial">n!</button>
         <button data-value="/">÷</button>
-        <button id="power" data-value="**">xʸ</button>
+        <button id="power" data-primary="xʸ" data-alt="ʸ√x">xʸ</button>
+
         <button data-value="7">7</button>
         <button data-value="8">8</button>
         <button data-value="9">9</button>
         <button data-value="*">×</button>
-        <button id="tenPower">10ˣ</button>
+        <button id="tenPower" data-primary="10ˣ" data-alt="2ˣ">10ˣ</button>
         <button data-value="4">4</button>
         <button data-value="5">5</button>
         <button data-value="6">6</button>
         <button data-value="-">-</button>
-        <button id="log" data-value="">log</button>
+        <button id="log" data-primary="log" data-alt="logᵧx">log</button>
         <button data-value="1">1</button>
         <button data-value="2">2</button>
         <button data-value="3">3</button>
         <button data-value="+">+</button>
-        <button id="ln" data-value="">ln</button>
+        <button id="ln" data-primary="ln" data-alt="eˣ">ln</button>
 
         <button id="percent">%</button>
-        <!-- <button id="ce">CE</button> -->
 
         <button data-value="0">0</button>
         <button data-value=".">.</button>
