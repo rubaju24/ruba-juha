@@ -1,72 +1,84 @@
 <!doctype html>
-<html>
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <title>Scientific Calculator</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>calculat</title>
+
     <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
     <div class="calculator">
-      <div class="top">
-        <span>DEG</span>
-        <span>F-E</span>
-      </div>
-
       <input type="text" id="display" disabled />
 
-      <div class="memory">
-        <span>MC</span>
-        <span>MR</span>
-        <span>M+</span>
-        <span>M-</span>
-        <span>MS</span>
+      <!-- 🆕 قسم الدوال المثلثية مع القائمة المنسدلة -->
+      <div class="func-section">
+        <div class="custom-dropdown" id="funcDropdown">
+          <button class="dropdown-btn" id="dropdownBtn">sin</button>
+          <ul class="dropdown-options hidden" id="dropdownOptions">
+            <li data-value="sin">sin</li>
+            <li data-value="cos">cos</li>
+            <li data-value="tan">tan</li>
+            <li data-value="asin">sin⁻¹</li>
+            <li data-value="acos">cos⁻¹</li>
+            <li data-value="atan">tan⁻¹</li>
+            <li data-value="sinh">sinh</li>
+            <li data-value="cosh">cosh</li>
+            <li data-value="tanh">tanh</li>
+          </ul>
+        </div>
+
+        <!-- أزرار التحكم بوحدة الزاوية -->
+        <div class="angle-mode">
+          <button id="degMode" class="mode-btn active">DEG</button>
+          <button id="radMode" class="mode-btn">RAD</button>
+        </div>
+
+        <!-- زر تطبيق الدالة المختارة -->
+        <button id="applyFunc" class="func-btn">Apply</button>
       </div>
 
       <div class="buttons">
-        <button data-func="square">x²</button>
-        <button data-func="inverse">1/x</button>
-        <button data-func="abs">|x|</button>
-        <button data-func="exp">exp</button>
-        <button data-value="%">mod</button>
+        <button id="2^nd">2ⁿᵈ</button>
+        <button id="pi">π</button>
+        <button id="e">e</button>
         <button id="clear">C</button>
-
-        <button data-func="sqrt">√</button>
-        <button data-value="(">(</button>
-        <button data-value=")">)</button>
-        <button data-func="fact">n!</button>
+        <button id="delete">⌫</button>
+        <button id="square">x²</button>
+        <button id="inverse">1/x</button>
+        <button id="absolute">|x|</button>
+        <button id="exp">exp</button>
+        <button id="mod">mod</button>
+        <button id="sqrt">√</button>
+        <button id="open">(</button>
+        <button id="close">)</button>
+        <button id="factorial">n!</button>
         <button data-value="/">÷</button>
-
-        <button data-func="pow">xʸ</button>
-        <button data-func="sin">sin</button>
-        <button data-func="cos">cos</button>
-        <button data-func="tan">tan</button>
-        <button data-value="*">×</button>
-
-        <button data-func="tenpow">10ˣ</button>
+        <button id="power" data-value="**">xʸ</button>
         <button data-value="7">7</button>
         <button data-value="8">8</button>
         <button data-value="9">9</button>
-        <button data-value="-">-</button>
-
-        <button data-func="log">log</button>
+        <button data-value="*">×</button>
+        <button id="tenPower">10ˣ</button>
         <button data-value="4">4</button>
         <button data-value="5">5</button>
         <button data-value="6">6</button>
-        <button data-value="+">+</button>
-
-        <button data-func="ln">ln</button>
+        <button data-value="-">-</button>
+        <button id="log" data-value="">log</button>
         <button data-value="1">1</button>
         <button data-value="2">2</button>
         <button data-value="3">3</button>
-        <button id="equal">=</button>
+        <button data-value="+">+</button>
+        <button id="ln" data-value="">ln</button>
 
-        <button id="pi">π</button>
+        <button id="percent">%</button>
+        <!-- <button id="ce">CE</button> -->
+
         <button data-value="0">0</button>
         <button data-value=".">.</button>
-        <button id="delete">⌫</button>
+        <button id="equal">=</button>
       </div>
     </div>
-
     <script src="main.js"></script>
   </body>
 </html>
