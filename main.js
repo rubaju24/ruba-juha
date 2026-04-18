@@ -1,17 +1,20 @@
 let display = document.getElementById("display");
 let buttons = document.querySelectorAll("button");
-// ============   إضافة متغيرات وأكواد القائمة المنسدلة ============
+
+// القائمة المنسدلة
 const dropdownBtn = document.getElementById("dropdownBtn");
 const dropdownOptions = document.getElementById("dropdownOptions");
 const optionsList = document.querySelectorAll(".dropdown-options li");
+
 const degModeBtn = document.getElementById("degMode");
 const radModeBtn = document.getElementById("radMode");
 
-// متغيرات الحالة
+// الحالة
 let isDegreeMode = true;
 let currentFunction = "sin";
 let memory = 0;
-// إعدادات القائمة المنسدلة
+
+// القائمة المنسدلة
 dropdownBtn.addEventListener("click", (event) => {
   event.stopPropagation();
   dropdownOptions.classList.toggle("hidden");
@@ -25,12 +28,11 @@ optionsList.forEach((option) => {
   });
 });
 
-// إغلاق القائمة عند الضغط خارجها
 document.addEventListener("click", () => {
   dropdownOptions.classList.add("hidden");
 });
 
-// تبديل وضع الزاوية
+// DEG / RAD
 degModeBtn.addEventListener("click", () => {
   isDegreeMode = true;
   degModeBtn.classList.add("active");
@@ -43,7 +45,7 @@ radModeBtn.addEventListener("click", () => {
   degModeBtn.classList.remove("active");
 });
 
-// دالة مساعدة لحساب الدوال المثلثية
+// دوال مثلثية
 function calculateTrigFunction(func, value) {
   let angle = isDegreeMode ? value * (Math.PI / 180) : value;
 
@@ -54,37 +56,58 @@ function calculateTrigFunction(func, value) {
       return Math.cos(angle);
     case "tan":
       return Math.tan(angle);
+
     case "asin":
-      let asinResult = Math.asin(value);
-      return isDegreeMode ? asinResult * (180 / Math.PI) : asinResult;
+      let asin = Math.asin(value);
+      return isDegreeMode ? asin * (180 / Math.PI) : asin;
+
     case "acos":
-      let acosResult = Math.acos(value);
-      return isDegreeMode ? acosResult * (180 / Math.PI) : acosResult;
+      let acos = Math.acos(value);
+      return isDegreeMode ? acos * (180 / Math.PI) : acos;
+
     case "atan":
-      let atanResult = Math.atan(value);
-      return isDegreeMode ? atanResult * (180 / Math.PI) : atanResult;
+      let atan = Math.atan(value);
+      return isDegreeMode ? atan * (180 / Math.PI) : atan;
+
     case "sinh":
       return Math.sinh(value);
     case "cosh":
       return Math.cosh(value);
     case "tanh":
       return Math.tanh(value);
+
     default:
-      return Math.sin(angle);
+      return value;
   }
 }
+
+// الأزرار
 buttons.forEach((button) => {
   button.addEventListener("click", function () {
-    // 🆕 زر القيمة المطلقة |x|
-    if (this.id === "absolute") {
+    // أرقام وعمليات
+    let value = this.getAttribute("data-value");
+    if (value) {
+      display.value += value;
+      return;
+    }
+
+    // =
+    if (this.id === "equal") {
       try {
-        let value = evaluateExpression(display.value);
-        display.value = Math.abs(value);
+        let val = parseFloat(display.value);
+
+        // إذا في دالة مختارة
+        if (!isNaN(val)) {
+          display.value = calculateTrigFunction(currentFunction, val);
+        } else {
+          display.value = eval(display.value);
+        }
       } catch {
         display.value = "Error";
       }
       return;
     }
+
     // C
     if (this.id === "clear") {
       display.value = "";
@@ -94,16 +117,6 @@ buttons.forEach((button) => {
     // ⌫
     if (this.id === "delete") {
       display.value = display.value.slice(0, -1);
-      return;
-    }
-
-    // =
-    if (this.id === "equal") {
-      try {
-        display.value = eval(display.value);
-      } catch {
-        display.value = "Error";
-      }
       return;
     }
 
@@ -120,99 +133,78 @@ buttons.forEach((button) => {
     // 1/x
     if (this.id === "inverse") {
       try {
-        let value = eval(display.value);
-        if (value === 0) {
-          display.value = "Error";
-          return;
-        }
-        display.value = 1 / value;
+        let val = eval(display.value);
+        display.value = val === 0 ? "Error" : 1 / val;
       } catch {
         display.value = "Error";
       }
       return;
     }
-    //  مجموعة أزرار الدوال
+
+    // ln
     if (this.id === "ln") {
       try {
-        let value = eval(display.value);
-
-        // اللوغاريتم الطبيعي معرف فقط للأعداد الموجبة
-        if (value <= 0) {
-          display.value = "Error";
-        } else {
-          display.value = Math.log(value); // Math.log هي دالة ln في JavaScript
-        }
+        let val = eval(display.value);
+        display.value = val <= 0 ? "Error" : Math.log(val);
       } catch {
         display.value = "Error";
       }
       return;
     }
-    // 🆕 زر اللوغاريتم للأساس 10
+
+    // log
     if (this.id === "log") {
       try {
-        let value = eval(display.value);
-
-        // log(x) معرف فقط للأعداد الموجبة أيضاً
-        if (value <= 0) {
-          display.value = "Error";
-        } else {
-          display.value = Math.log10(value); // دالة log10 في JavaScript
-        }
+        let val = eval(display.value);
+        display.value = val <= 0 ? "Error" : Math.log10(val);
       } catch {
         display.value = "Error";
       }
       return;
     }
-    // زر 10 قوة x (10^x)
+
+    // x^y
+    if (this.id === "power") {
+      display.value += "**";
+      return;
+    }
+
+    // 10^x
     if (this.id === "tenPower") {
       try {
-        let value = eval(display.value);
-        display.value = Math.pow(10, value);
+        display.value = Math.pow(10, eval(display.value));
       } catch {
         display.value = "Error";
       }
       return;
     }
-    // زر x قوة y (x^y)
-    if (this.id === "power") {
-      display.value += "**"; // عامل الأس في JavaScript
-      return;
-    }
-    // باقي الأزرار
-    let value = this.getAttribute("data-value");
-    if (value) {
-      display.value += value;
-    }
 
-    // زر العاملي
+    // factorial
     if (this.id === "factorial") {
       let num = parseInt(display.value);
-
       if (isNaN(num) || num < 0) {
         display.value = "Error";
         return;
       }
-
-      let result = 1;
-      for (let i = 1; i <= num; i++) {
-        result *= i;
-      }
-
-      display.value = result;
+      let res = 1;
+      for (let i = 1; i <= num; i++) res *= i;
+      display.value = res;
       return;
     }
-    // زر الباي
+
+    // π
     if (this.id === "pi") {
       display.value += Math.PI;
       return;
     }
 
-    // زر e
+    // e
     if (this.id === "e") {
       display.value += Math.E;
       return;
     }
-    // زر (
+
+    // ()
     if (this.id === "open") {
       display.value += "(";
       return;
@@ -223,70 +215,43 @@ buttons.forEach((button) => {
       return;
     }
 
-    // زر exp
+    // exp
     if (this.id === "exp") {
-      display.value = Math.exp(display.value);
+      display.value = Math.exp(eval(display.value));
       return;
     }
-    // زر mod
+
+    // mod
     if (this.id === "mod") {
       display.value += "%";
       return;
     }
 
+    // ±
     if (this.id === "toggleSign") {
       try {
-        let value = eval(display.value);
-        display.value = -value;
+        display.value = -eval(display.value);
       } catch {
         display.value = "Error";
       }
       return;
     }
-    // 🆕 زر تطبيق الدالة المثلثية
-    if (this.id === "applyFunc") {
+
+    // |x|
+    if (this.id === "absolute") {
       try {
-        // حساب قيمة التعبير الموجود في الشاشة
-        let value = Function('"use strict"; return (' + display.value + ")")();
-
-        // استدعاء دالة حساب المثلثات مع الدالة المختارة
-        let result = calculateTrigFunction(currentFunction, value);
-
-        // التحقق من صحة النتيجة
-        if (isNaN(result) || !isFinite(result)) {
-          display.value = "Error";
-        } else {
-          display.value = result;
-        }
+        display.value = Math.abs(eval(display.value));
       } catch {
         display.value = "Error";
       }
       return;
     }
 
-    // MS = تخزين
-    if (this.id === "ms") {
-      memory = parseFloat(display.value) || 0;
-    }
-
-    // MR = استرجاع
-    if (this.id === "mr") {
-      display.value += memory;
-    }
-
-    // MC = مسح
-    if (this.id === "mc") {
-      memory = 0;
-    }
-
-    // M+ = جمع
-    if (this.id === "mplus") {
-      memory += parseFloat(display.value) || 0;
-    }
-
-    // M- = طرح
-    if (this.id === "mminus") {
-      memory -= parseFloat(display.value) || 0;
-    }
+    // الذاكرة
+    if (this.id === "ms") memory = parseFloat(display.value) || 0;
+    if (this.id === "mr") display.value += memory;
+    if (this.id === "mc") memory = 0;
+    if (this.id === "mplus") memory += parseFloat(display.value) || 0;
+    if (this.id === "mminus") memory -= parseFloat(display.value) || 0;
   });
 });
