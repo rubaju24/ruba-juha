@@ -6,10 +6,14 @@ const dropdownBtn = document.getElementById("dropdownBtn");
 const dropdownOptions = document.getElementById("dropdownOptions");
 const optionsList = document.querySelectorAll(".dropdown-options li");
 
+const extraDropdownBtn = document.getElementById("extraDropdownBtn");
+const extraDropdownOptions = document.getElementById("extraDropdownOptions");
+const extraOptionsList = document.querySelectorAll("#extraDropdownOptions li");
+let currentExtraFunction = "rand";
 const degModeBtn = document.getElementById("degMode");
 const radModeBtn = document.getElementById("radMode");
 const applyBtn = document.getElementById("applyFunc");
-
+let activeDropdown = "trig";
 // دالة مخصصة لتقييم التعبيرات الرياضية بأمان
 function evaluateExpression(expression) {
   // استبدال الرموز الرياضية بما يفهمه JavaScript
@@ -33,6 +37,7 @@ function evaluateExpression(expression) {
     throw new Error("تعبير غير صالح");
   }
 }
+
 // متغيرات الحالة
 let isDegreeMode = true;
 let currentFunction = "sin";
@@ -42,6 +47,15 @@ let memory = 0;
 dropdownBtn.addEventListener("click", (event) => {
   event.stopPropagation();
   dropdownOptions.classList.toggle("hidden");
+  extraDropdownOptions.classList.add("hidden"); // 🆕
+  activeDropdown = "trig"; // 🆕
+});
+//القائمة المنسدلة الإضافية
+extraDropdownBtn.addEventListener("click", (event) => {
+  event.stopPropagation();
+  extraDropdownOptions.classList.toggle("hidden");
+  dropdownOptions.classList.add("hidden");
+  activeDropdown = "extra";
 });
 
 optionsList.forEach((option) => {
@@ -49,9 +63,24 @@ optionsList.forEach((option) => {
     currentFunction = option.getAttribute("data-value");
     dropdownBtn.textContent = option.textContent;
     dropdownOptions.classList.add("hidden");
+    activeDropdown = "trig";
   });
 });
-
+extraOptionsList.forEach((option) => {
+  option.addEventListener("click", () => {
+    currentExtraFunction = option.getAttribute("data-value");
+    extraDropdownBtn.textContent = option.textContent;
+    extraDropdownOptions.classList.add("hidden");
+    activeDropdown = "extra";
+    // تطبيق rand فوراً بدون الحاجة لضغط Apply
+    if (currentExtraFunction === "rand") {
+      display.value = Math.random();
+    }
+  });
+});
+document.addEventListener("click", () => {
+  extraDropdownOptions.classList.add("hidden");
+});
 document.addEventListener("click", () => {
   dropdownOptions.classList.add("hidden");
 });
@@ -105,6 +134,15 @@ function calculateTrigFunction(func, value) {
     default:
       return value;
   }
+}
+function decimalToDMS(decimal) {
+  let degrees = Math.floor(Math.abs(decimal));
+  let minutesFloat = (Math.abs(decimal) - degrees) * 60;
+  let minutes = Math.floor(minutesFloat);
+  let seconds = (minutesFloat - minutes) * 60;
+
+  let sign = decimal < 0 ? "-" : "";
+  return sign + degrees + "° " + minutes + "' " + seconds.toFixed(2) + '"';
 }
 
 // الأزرار
@@ -330,12 +368,62 @@ document.addEventListener("keydown", function (e) {
   }
 });
 
+// applyBtn.addEventListener("click", () => {
+//   try {
+//     let val = parseFloat(display.value);
+
+//     if (!isNaN(val)) {
+//       display.value = calculateTrigFunction(currentFunction, val);
+//     }
+//   } catch {
+//     display.value = "Error";
+//   }
+// });
 applyBtn.addEventListener("click", () => {
   try {
-    let val = parseFloat(display.value);
+    if (activeDropdown === "trig") {
+      // الدوال المثلثية
+      if (display.value === "") {
+        display.value = "Error";
+        return;
+      }
+      let val = eval(display.value);
+      let result = calculateTrigFunction(currentFunction, val);
 
-    if (!isNaN(val)) {
-      display.value = calculateTrigFunction(currentFunction, val);
+      if (isNaN(result) || !isFinite(result)) {
+        display.value = "Error";
+      } else {
+        display.value = result;
+      }
+    } else if (activeDropdown === "extra") {
+      // الدوال الإضافية
+      let val = display.value === "" ? 0 : eval(display.value);
+      let result;
+
+      switch (currentExtraFunction) {
+        case "rand":
+          result = Math.random();
+          break;
+        case "deg":
+          result = val * (180 / Math.PI);
+          break;
+        case "dms":
+          result = decimalToDMS(val);
+          break;
+        case "floor":
+          result = Math.floor(val);
+          break;
+        case "ceil":
+          result = Math.ceil(val);
+          break;
+        case "abs":
+          result = Math.abs(val);
+          break;
+        default:
+          result = val;
+      }
+
+      display.value = result;
     }
   } catch {
     display.value = "Error";

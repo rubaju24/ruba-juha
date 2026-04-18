@@ -199,11 +199,11 @@ button:hover {
 .memory button {
   background: none;
   border: none;
-  color: gray;
+  color: rgb(239, 224, 224);
   font-size: 12px;
   cursor: pointer;
 }
 
 .memory button:hover {
-  color: black;
+  color: #918787;
 }
