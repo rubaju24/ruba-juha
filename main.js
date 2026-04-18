@@ -328,7 +328,6 @@ document.addEventListener("keydown", function (e) {
     display.value += key;
   }
 });
-const applyBtn = document.getElementById("applyFunc");
 
 applyBtn.addEventListener("click", () => {
   try {
